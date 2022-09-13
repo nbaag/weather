@@ -1,6 +1,10 @@
 <template>
   <header>
-    <h1>Local Weather</h1>
+    <nav style="display: inline">
+      <a href="#">Home</a>
+      <a href="#">Month</a>
+      <a href="#">About</a>
+    </nav>
   </header>
   <main>
     <div class="container">
@@ -106,11 +110,41 @@
 </script>
 
 <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
   background-color: lightblue;
+  font-family: Arial, Helvetica, sans-serif;
 }
 h1, h2{
   margin: 4px;
+
+}
+
+header {
+  margin: 5px;
+  background-color: rgb(49, 218, 218);
+  border-radius: 5px;
+  overflow: hidden;
+  height: 47px;
+  line-height: 47px;
+  position: sticky;
+  top: 5px;
+}
+
+header a {
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  color: #000;
+  font-weight: bold;
+}
+
+header a:hover {
+  background-color: #ddd;
 }
 
 .text {
@@ -123,9 +157,10 @@ h1, h2{
 .container {
   background-color: #fff;
   min-width: 143px;
-  max-width: 400px;
+  max-width: 250px;
   align-items: center;
   text-align: center;
+  padding: 20px;
   margin: auto;
   border: 2px solid blue;
   border-radius: 20px;
@@ -133,7 +168,7 @@ h1, h2{
 .mini_container {
   background-color: #fff;
   display: inline-block;
-  padding: 4px;
+  padding: 10px 0;
   width: 130px;
   align-items: center;
   text-align: center;
