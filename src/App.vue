@@ -1,11 +1,5 @@
 <template>
-  <header>
-    <nav style="display: inline">
-      <a href="#">Home</a>
-      <a href="#">Month</a>
-      <a href="#">About</a>
-    </nav>
-  </header>
+  <myHeader/>
   <main>
     <div class="container">
       <div class="current_data">
@@ -30,7 +24,11 @@
 </template>
 
 <script>
+  import myHeader from '@/components/my-header.vue'
   export default {
+    components: {
+      myHeader
+    },
     data() {
       return {
         key: '5fdf0fb76d7ff76f97ae88bd07a28c1b',
@@ -49,7 +47,6 @@
 
     mounted() {
       this.getUserLocation()
-      
     },
 
     methods: {
@@ -115,36 +112,15 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   background-color: lightblue;
   font-family: Arial, Helvetica, sans-serif;
 }
+
 h1, h2{
   margin: 4px;
 
-}
-
-header {
-  margin: 5px;
-  background-color: rgb(49, 218, 218);
-  border-radius: 5px;
-  overflow: hidden;
-  height: 47px;
-  line-height: 47px;
-  position: sticky;
-  top: 5px;
-}
-
-header a {
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-  color: #000;
-  font-weight: bold;
-}
-
-header a:hover {
-  background-color: #ddd;
 }
 
 .text {
