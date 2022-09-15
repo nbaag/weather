@@ -50,7 +50,7 @@
     },
 
     methods: {
-      getUserLocation() {//change
+      getUserLocation() {
         navigator.geolocation.getCurrentPosition((position) => {
           let latitude = position.coords.latitude;
           let longitude = position.coords.longitude;
