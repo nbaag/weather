@@ -10,7 +10,7 @@
         <p class="weather"> {{ currentWeather.temperature }}° C </p>
         <p class="description"> {{ currentWeather.description }} </p>
       </div>
-    </div>
+    </div> 
     <div class="daily_weather">
       <div class="mini_container" v-for="weather in weeklyWeather" :key="weather">
       <h2 style="font-size: 20px">{{ weather.dayNumber + ' ' + weather.month }}</h2>
@@ -50,7 +50,7 @@
     },
 
     methods: {
-      getUserLocation() {
+      getUserLocation() {//change
         navigator.geolocation.getCurrentPosition((position) => {
           let latitude = position.coords.latitude;
           let longitude = position.coords.longitude;
