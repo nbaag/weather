@@ -1,6 +1,7 @@
 <template>
   <myHeader/>
   <main>
+    <!-- today's weather -->
     <div class="container">
       <div class="current_data">
         <p style="font-weight: bold; font-size: 20px; margin-bottom: 6px">{{ currentWeather.city }}</p>
@@ -11,6 +12,7 @@
         <p class="description"> {{ currentWeather.description }} </p>
       </div>
     </div> 
+    <!-- week's weather -->
     <div class="daily_weather">
       <div class="mini_container" v-for="weather in weeklyWeather" :key="weather">
       <h2 style="font-size: 20px">{{ weather.dayNumber + ' ' + weather.month }}</h2>
@@ -50,6 +52,7 @@
     },
 
     methods: {
+      //get browser location
       getUserLocation() {
         navigator.geolocation.getCurrentPosition((position) => {
           let latitude = position.coords.latitude;
@@ -68,13 +71,14 @@
             return data;
           })
           .then((data) => {
+            //today's weather
             this.currentWeather.temperature = Math.floor(data.current.temp - this.kelvin);
             this.currentWeather.city = data.timezone;
             this.currentWeather.description = data.current.weather[0].description.toUpperCase()
             this.currentWeather.image = `src/icons/${data.current.weather[0].icon}.png`
 
             this.getDate()
-
+            //weekly weather 
             for(let i = 0; i < 6; i++) {
               let weather = {temperatureDay: '', temperatureNight: '', image: '', dayNumber:'', dayName: '', month: ''}
               weather.temperatureDay = Math.floor(data.daily[i + 1].temp.day - this.kelvin);
@@ -89,7 +93,7 @@
         
         console.log(api)
       },
-
+      //get dates for week 
       getDate() {
         for(let i = 1; i < 7; i++) {
           let newDay = {number: '', name: '', month: ''};
