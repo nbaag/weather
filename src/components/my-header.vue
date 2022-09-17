@@ -1,9 +1,10 @@
 <template>
   <header>
     <nav style="display: inline">
-      <a href="#">Home</a>
-      <a href="#">Month</a>
-      <a href="#">About</a>
+      <router-link to="/">Home</router-link>
+      <router-link to="/month">Month</router-link>
+      <router-link to="/about">About</router-link>
+      
     </nav>
   </header>
 </template>
