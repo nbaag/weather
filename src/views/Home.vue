@@ -28,16 +28,11 @@
   export default {
     data() {
       return {
-        weeklyWeather: [],
-        kelvin: 273,
-        currentDate: new Date(),
-        days: []
+
       }
     },
-    beforeCreate() {
-      this.$store.commit('getUserLocation')
-    },
     mounted() {
+      this.$store.commit('getUserLocation')
       this.$store.dispatch('getWeather')
     },
 
