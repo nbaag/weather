@@ -25,10 +25,21 @@
 </template>
 
 <script>
+import{ mapState, mapMutations, mapActions} from 'vuex'
+
   export default {
+    methods: {
+      ...mapMutations([
+        'getUserLocation'
+      ]),
+      ...mapActions([
+        'getWeather'
+      ])
+    },
+
     mounted() {
-      this.$store.dispatch('getWeather')
-      
+      this.getWeather()
+      this.getUserLocation()
     }
   }
 </script>

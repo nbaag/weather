@@ -20,6 +20,9 @@ const store = createStore({
       lon: ''
     }
   },
+  getters: {
+    
+  },
   mutations: {
     getUserLocation(state) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -29,41 +32,42 @@ const store = createStore({
         console.log(state.lat, state.lon)
       })
     },
-    getDate() {
+    
+    getDate(state) {
       for(let i = 1; i < 7; i++) {
         let newDay = {number: '', name: '', month: ''};
-        let tomorrow = new Date(this.state.currentDate)
+        let tomorrow = new Date(state.currentDate)
         tomorrow.setDate(tomorrow.getDate() + i)
         newDay.number = tomorrow.getDate()
         newDay.name = tomorrow.toLocaleDateString('en-us', {weekday:'long'})
         newDay.month = tomorrow.toLocaleDateString('en-us', {month:'short'})
-        this.state.days.push(newDay)
+        state.days.push(newDay)
         console.log(newDay)
       }
     }
   },
   actions: {
-    getWeather({ commit }) {
-      commit('getUserLocation')
-      axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${this.state.lat}&lon=${this.state.lon}&exclude=minutely,hourly&appid=${this.state.key}`)
+    
+    getWeather({ commit, state }) {
+      axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${state.lat}&lon=${state.lon}&exclude=minutely,hourly&appid=${state.key}`)
       .then(response => {
         
-        this.state.currentWeather.temperature = Math.floor(response.data.current.temp - this.state.kelvin);
-        this.state.currentWeather.city = response.data.timezone;
-        this.state.currentWeather.description = response.data.current.weather[0].description.toUpperCase();
-        this.state.currentWeather.image = `src/icons/${response.data.current.weather[0].icon}.png`;
+        state.currentWeather.temperature = Math.floor(response.data.current.temp - state.kelvin);
+        state.currentWeather.city = response.data.timezone;
+        state.currentWeather.description = response.data.current.weather[0].description.toUpperCase();
+        state.currentWeather.image = `src/icons/${response.data.current.weather[0].icon}.png`;
 
-        this.commit('getDate')
+        commit('getDate')
 
         for(let i = 0; i < 6; i++) {
           let weather = {temperatureDay: '', temperatureNight: '', image: '', dayNumber:'', dayName: '', month: ''}
-          weather.temperatureDay = Math.floor(response.data.daily[i + 1].temp.day - this.state.kelvin);
-          weather.temperatureNight = Math.floor(response.data.daily[i + 1].temp.night - this.state.kelvin);
+          weather.temperatureDay = Math.floor(response.data.daily[i + 1].temp.day - state.kelvin);
+          weather.temperatureNight = Math.floor(response.data.daily[i + 1].temp.night - state.kelvin);
           weather.image = `src/icons/${response.data.daily[i + 1].weather[0].icon}.png`
-          weather.dayNumber = this.state.days[i].number;
-          weather.dayName = this.state.days[i].name;
-          weather.month = this.state.days[i].month;
-          this.state.weeklyWeather.push(weather);
+          weather.dayNumber = state.days[i].number;
+          weather.dayName = state.days[i].name;
+          weather.month = state.days[i].month;
+          state.weeklyWeather.push(weather);
         }
       })
     },
