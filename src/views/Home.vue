@@ -39,7 +39,7 @@ import{ mapState, mapMutations, mapActions} from 'vuex'
 
     mounted() {
       this.getWeather()
-      this.getUserLocation()
+      
     }
   }
 </script>

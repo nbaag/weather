@@ -24,14 +24,10 @@ const store = createStore({
     
   },
   mutations: {
-    getUserLocation(state) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        state.lat = position.coords.latitude;
-        state.lon = position.coords.longitude;
-
-        console.log(state.lat, state.lon)
-      })
-    },
+    // getUserLocation(state, payload) {
+    //   state.lat = payload.lat
+    //   state.lon = payload.lon
+    // },
     
     getDate(state) {
       for(let i = 1; i < 7; i++) {
@@ -49,7 +45,10 @@ const store = createStore({
   actions: {
     
     getWeather({ commit, state }) {
-      axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${state.lat}&lon=${state.lon}&exclude=minutely,hourly&appid=${state.key}`)
+      navigator.geolocation.getCurrentPosition((position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly&appid=${state.key}`)
       .then(response => {
         
         state.currentWeather.temperature = Math.floor(response.data.current.temp - state.kelvin);
@@ -70,6 +69,8 @@ const store = createStore({
           state.weeklyWeather.push(weather);
         }
       })
+      })
+      
     },
     
   }
