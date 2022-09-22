@@ -21,12 +21,12 @@ const store = createStore({
     }
   },
   mutations: {
-    getUserLocation() {
+    getUserLocation(state) {
       navigator.geolocation.getCurrentPosition((position) => {
-        this.state.lat = position.coords.latitude;
-        this.state.lon = position.coords.longitude;
+        state.lat = position.coords.latitude;
+        state.lon = position.coords.longitude;
 
-        console.log(this.state.lat, this.state.lon)
+        console.log(state.lat, state.lon)
       })
     },
     getDate() {
@@ -43,10 +43,11 @@ const store = createStore({
     }
   },
   actions: {
-    getWeather() {
-
+    getWeather({ commit }) {
+      commit('getUserLocation')
       axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${this.state.lat}&lon=${this.state.lon}&exclude=minutely,hourly&appid=${this.state.key}`)
       .then(response => {
+        
         this.state.currentWeather.temperature = Math.floor(response.data.current.temp - this.state.kelvin);
         this.state.currentWeather.city = response.data.timezone;
         this.state.currentWeather.description = response.data.current.weather[0].description.toUpperCase();

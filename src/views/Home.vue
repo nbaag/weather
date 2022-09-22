@@ -26,27 +26,8 @@
 
 <script>
   export default {
-    data() {
-      return {
-
-      }
-    },
     mounted() {
-      this.$store.commit('getUserLocation')
       this.$store.dispatch('getWeather')
-    },
-
-    methods: {
-      //get browser location
-      // getUserLocation() {
-      //   navigator.geolocation.getCurrentPosition((position) => {
-      //     let latitude = position.coords.latitude;
-      //     let longitude = position.coords.longitude;
-
-      //     // this.getWeather(latitude, longitude);
-      //   })
-      // },
-
       
     }
   }
