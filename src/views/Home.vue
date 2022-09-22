@@ -13,7 +13,7 @@
     </div> 
     <!-- week's weather -->
     <div class="daily_weather">
-      <div class="mini_container" v-for="weather in $store.state.weeklyWeather" :key="weather">
+      <div class="mini_container" v-for="weather in $store.state.weeklyWeather" :key="weather.dayNumber">
       <h2 style="font-size: 20px">{{ weather.dayNumber + ' ' + weather.month }}</h2>
       <p class="text">{{ weather.dayName }}</p>
       <img style="max-width: 80px" :src="weather.image" alt="">
@@ -34,7 +34,9 @@
         days: []
       }
     },
-
+    beforeCreate() {
+      this.$store.commit('getUserLocation')
+    },
     mounted() {
       this.$store.dispatch('getWeather')
     },

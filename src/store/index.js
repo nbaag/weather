@@ -16,19 +16,19 @@ const store = createStore({
       kelvin: 273,
       currentDate: new Date(),
       days: [],
-      lat: '55.6237',
-      lon: '37.598'
+      lat: '',
+      lon: ''
     }
   },
   mutations: {
-    // getUserLocation() {
-    //   navigator.geolocation.getCurrentPosition((position) => {
-    //     this.state.lat = position.coords.latitude;
-    //     this.state.lon = position.coords.longitude;
+    getUserLocation() {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.state.lat = position.coords.latitude;
+        this.state.lon = position.coords.longitude;
 
-    //     console.log(this.state.lat, this.state.lon)
-    //   })
-    // },
+        console.log(this.state.lat, this.state.lon)
+      })
+    },
     getDate() {
       for(let i = 1; i < 7; i++) {
         let newDay = {number: '', name: '', month: ''};
