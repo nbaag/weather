@@ -2,7 +2,6 @@
   <header>
     <nav style="display: inline">
       <router-link to="/">Home</router-link>
-      <router-link to="/month">Month</router-link>
       <router-link to="/about">About</router-link>
       
     </nav>

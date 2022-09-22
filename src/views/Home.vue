@@ -105,7 +105,8 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  $blueborder: 2px solid blue;
 .text {
   margin: 8px 0;
 }
@@ -121,7 +122,7 @@
   text-align: center;
   padding: 20px;
   margin: auto;
-  border: 2px solid blue;
+  border: $blueborder;
   border-radius: 20px;
 }
 .mini_container {
@@ -132,7 +133,7 @@
   align-items: center;
   text-align: center;
   margin: 10px 4px;
-  border: 2px solid blue;
+  border: $blueborder;
   border-radius: 20px;
 }
 
