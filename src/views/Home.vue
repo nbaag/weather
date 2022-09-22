@@ -3,17 +3,17 @@
     <!-- today's weather -->
     <div class="container">
       <div class="current_data">
-        <p style="font-weight: bold; font-size: 20px; margin-bottom: 6px">{{ currentWeather.city }}</p>
-        <h1>{{ currentDate.getDate() + ' ' + currentDate.toLocaleDateString('en-us', {month:'short'}) }}</h1>
+        <p style="font-weight: bold; font-size: 20px; margin-bottom: 6px">{{ $store.state.currentWeather.city }}</p>
+        <h1>{{ $store.state.currentDate.getDate() + ' ' + $store.state.currentDate.toLocaleDateString('en-us', {month:'short'}) }}</h1>
         <p class="text">Today</p>
-        <img :src="currentWeather.image" alt="weather_icon">
-        <p class="weather"> {{ currentWeather.temperature }}° C </p>
-        <p class="description"> {{ currentWeather.description }} </p>
+        <img :src="$store.state.currentWeather.image" alt="weather_icon">
+        <p class="weather"> {{ $store.state.currentWeather.temperature }}° C </p>
+        <p class="description"> {{ $store.state.currentWeather.description }} </p>
       </div>
     </div> 
     <!-- week's weather -->
     <div class="daily_weather">
-      <div class="mini_container" v-for="weather in weeklyWeather" :key="weather">
+      <div class="mini_container" v-for="weather in $store.state.weeklyWeather" :key="weather">
       <h2 style="font-size: 20px">{{ weather.dayNumber + ' ' + weather.month }}</h2>
       <p class="text">{{ weather.dayName }}</p>
       <img style="max-width: 80px" :src="weather.image" alt="">
@@ -28,13 +28,6 @@
   export default {
     data() {
       return {
-        key: '5fdf0fb76d7ff76f97ae88bd07a28c1b',
-        currentWeather: {
-          temperature: '-',
-          description: '-',
-          city: '-',
-          image: 'src/icons/unknown.png'
-        },
         weeklyWeather: [],
         kelvin: 273,
         currentDate: new Date(),
@@ -43,64 +36,21 @@
     },
 
     mounted() {
-      this.getUserLocation()
+      this.$store.dispatch('getWeather')
     },
 
     methods: {
       //get browser location
-      getUserLocation() {
-        navigator.geolocation.getCurrentPosition((position) => {
-          let latitude = position.coords.latitude;
-          let longitude = position.coords.longitude;
+      // getUserLocation() {
+      //   navigator.geolocation.getCurrentPosition((position) => {
+      //     let latitude = position.coords.latitude;
+      //     let longitude = position.coords.longitude;
 
-          this.getWeather(latitude, longitude);
-        })
-      },
+      //     // this.getWeather(latitude, longitude);
+      //   })
+      // },
 
-      getWeather(latitude, longitude) {
-        let api = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,hourly&appid=${this.key}`
-
-        fetch(api)
-          .then((response) => {
-            let data = response.json();
-            return data;
-          })
-          .then((data) => {
-            //today's weather
-            this.currentWeather.temperature = Math.floor(data.current.temp - this.kelvin);
-            this.currentWeather.city = data.timezone;
-            this.currentWeather.description = data.current.weather[0].description.toUpperCase()
-            this.currentWeather.image = `src/icons/${data.current.weather[0].icon}.png`
-
-            this.getDate()
-            //weekly weather 
-            for(let i = 0; i < 6; i++) {
-              let weather = {temperatureDay: '', temperatureNight: '', image: '', dayNumber:'', dayName: '', month: ''}
-              weather.temperatureDay = Math.floor(data.daily[i + 1].temp.day - this.kelvin);
-              weather.temperatureNight = Math.floor(data.daily[i + 1].temp.night - this.kelvin);
-              weather.image = `src/icons/${data.daily[i + 1].weather[0].icon}.png`
-              weather.dayNumber = this.days[i].number;
-              weather.dayName = this.days[i].name;
-              weather.month = this.days[i].month;
-              this.weeklyWeather.push(weather);
-            }
-          })
-        
-        console.log(api)
-      },
-      //get dates for week 
-      getDate() {
-        for(let i = 1; i < 7; i++) {
-          let newDay = {number: '', name: '', month: ''};
-          let tomorrow = new Date(this.currentDate)
-          tomorrow.setDate(tomorrow.getDate() + i)
-          newDay.number = tomorrow.getDate()
-          newDay.name = tomorrow.toLocaleDateString('en-us', {weekday:'long'})
-          newDay.month = tomorrow.toLocaleDateString('en-us', {month:'short'})
-          this.days.push(newDay)
-          console.log()
-        }
-      }
+      
     }
   }
 </script>
