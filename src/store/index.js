@@ -24,11 +24,6 @@ const store = createStore({
     
   },
   mutations: {
-    // getUserLocation(state, payload) {
-    //   state.lat = payload.lat
-    //   state.lon = payload.lon
-    // },
-    
     getDate(state) {
       for(let i = 1; i < 7; i++) {
         let newDay = {number: '', name: '', month: ''};
@@ -49,26 +44,29 @@ const store = createStore({
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
         axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly&appid=${state.key}`)
-      .then(response => {
-        
-        state.currentWeather.temperature = Math.floor(response.data.current.temp - state.kelvin);
-        state.currentWeather.city = response.data.timezone;
-        state.currentWeather.description = response.data.current.weather[0].description.toUpperCase();
-        state.currentWeather.image = `src/icons/${response.data.current.weather[0].icon}.png`;
+        .then(response => {
+          
+          state.currentWeather.temperature = Math.floor(response.data.current.temp - state.kelvin);
+          state.currentWeather.city = response.data.timezone;
+          state.currentWeather.description = response.data.current.weather[0].description.toUpperCase();
+          state.currentWeather.image = `src/icons/${response.data.current.weather[0].icon}.png`;
 
-        commit('getDate')
-
-        for(let i = 0; i < 6; i++) {
-          let weather = {temperatureDay: '', temperatureNight: '', image: '', dayNumber:'', dayName: '', month: ''}
-          weather.temperatureDay = Math.floor(response.data.daily[i + 1].temp.day - state.kelvin);
-          weather.temperatureNight = Math.floor(response.data.daily[i + 1].temp.night - state.kelvin);
-          weather.image = `src/icons/${response.data.daily[i + 1].weather[0].icon}.png`
-          weather.dayNumber = state.days[i].number;
-          weather.dayName = state.days[i].name;
-          weather.month = state.days[i].month;
-          state.weeklyWeather.push(weather);
-        }
-      })
+          commit('getDate')
+          
+          if(state.weeklyWeather.length < 6) {
+            for(let i = 0; i < 6; i++) {
+              let weather = {temperatureDay: '', temperatureNight: '', image: '', dayNumber:'', dayName: '', month: ''}
+              weather.temperatureDay = Math.floor(response.data.daily[i + 1].temp.day - state.kelvin);
+              weather.temperatureNight = Math.floor(response.data.daily[i + 1].temp.night - state.kelvin);
+              weather.image = `src/icons/${response.data.daily[i + 1].weather[0].icon}.png`
+              weather.dayNumber = state.days[i].number;
+              weather.dayName = state.days[i].name;
+              weather.month = state.days[i].month;
+              state.weeklyWeather.push(weather);
+            }
+          }
+          
+        })
       })
       
     },
