@@ -2,6 +2,7 @@
   <div class="container">
     <a href="https://vuejs.org/">Vue 3 </a>
     <a href="https://router.vuejs.org/">Vue Router </a>
+    <a href="https://vuex.vuejs.org/">Vuex </a>
     <a href="https://sass-lang.com/">Sass </a>
   </div>
 </template>
